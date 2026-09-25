@@ -3,7 +3,7 @@
         "dollar": {
             "title": "دلار",
             "price": "233,100",
-            "change": 0.17
+            "change": 1000.17
         },
         "euro": {
             "title": "یورو",
@@ -18,9 +18,48 @@
         "dirham": {
             "title": "درهم",
             "price": "63,470",
-            "change": 0.19
+            "change": 4700.19
+        }
+    },
+    "gold": {
+        "gold_18k": {
+            "title": "طلای ۱۸ عیار",
+            "price": "23,754,560",
+            "change": -0.72
+        },
+        "gold_24k": {
+            "title": "طلای ۲۴ عیار",
+            "price": "31,669,579",
+            "change": -0.72
+        }
+    },
+    "coins": {
+        "coin_bahar_azadi": {
+            "title": "سکه بهار آزادی",
+            "price": "232,000,000",
+            "change": -0.43
+        },
+        "coin_emami": {
+            "title": "سکه امامی",
+            "price": "236,500,000",
+            "change": -0.42
+        },
+        "coin_half": {
+            "title": "نیم سکه",
+            "price": "121,500,000",
+            "change": 0.41
+        },
+        "coin_quarter": {
+            "title": "ربع سکه",
+            "price": "64,000,000",
+            "change": 1.59
+        },
+        "coin_grami": {
+            "title": "سکه گرمی",
+            "price": "34,000,000",
+            "change": 3.03
         }
     },
     "unit": "toman",
-    "updated_at": "2026-09-25T08:18:15+00:00"
+    "updated_at": "2026-09-25T08:27:49+00:00"
 }
