@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Scrapes Tabdeal for currency and gold prices.
+ * Scrapes Tabdeal for currency, gold, and coin prices.
  * Combines everything into a single data.json.
  */
 
@@ -15,7 +15,6 @@ $pages = [
             'پوند' => 'pound',
             'درهم' => 'dirham',
         ],
-        // Currencies have 3 <td> per row; skip mobile duplicates
         'row_condition' => "count(td) = 3",
         'skip_mobile'  => true,
     ],
@@ -25,15 +24,27 @@ $pages = [
             'طلای ۱۸ عیار' => 'gold_18k',
             'طلای ۲۴ عیار' => 'gold_24k',
         ],
-        // Gold mobile rows have 1 <td>; we need them for the 18k price
         'row_condition' => "count(td) = 1",
         'skip_mobile'  => false,
+    ],
+    'coins' => [
+        'url' => 'https://tabdeal.org/live/coin',
+        'targets' => [
+            'سکه بهار آزادی' => 'coin_bahar_azadi',
+            'سکه امامی'      => 'coin_emami',
+            'نیم سکه'        => 'coin_half',
+            'ربع سکه'        => 'coin_quarter',
+            'سکه گرمی'       => 'coin_grami',
+        ],
+        'row_condition' => "count(td) = 3",
+        'skip_mobile'  => true,
     ],
 ];
 
 $output = [
     'currencies' => [],
     'gold'       => [],
+    'coins'      => [],
     'unit'       => 'toman',
     'updated_at' => date('c'),
 ];
@@ -97,7 +108,7 @@ function extractData(
         $price = null;
         foreach ($xpath->query(".//span", $row) as $span) {
             $t = trim($span->textContent);
-            // Match numbers like 233,100 or 23,754,560
+            // Match numbers like 233,100 or 232,000,000
             if (preg_match('/^\d{1,3}(?:,\d{3})+$/', $t)) {
                 $price = $t;
                 break;
@@ -154,7 +165,7 @@ foreach ($pages as $key => $config) {
 }
 
 // --- Check if we got at least something ---
-if (empty($output['currencies']) && empty($output['gold'])) {
+if (empty($output['currencies']) && empty($output['gold']) && empty($output['coins'])) {
     fwrite(STDERR, "No data extracted from any page.\n");
     exit(1);
 }
@@ -171,6 +182,9 @@ foreach ($output['currencies'] as $k => $v) {
     $summary[] = "$k={$v['price']}";
 }
 foreach ($output['gold'] as $k => $v) {
+    $summary[] = "$k={$v['price']}";
+}
+foreach ($output['coins'] as $k => $v) {
     $summary[] = "$k={$v['price']}";
 }
 echo "Updated: " . implode(', ', $summary) . "\n";
