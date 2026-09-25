@@ -1,12 +1,16 @@
-name: Update dollar price
+name: Update currency prices
 
 on:
   schedule:
-    - cron: '0 * * * *'      # every hour (UTC)
-  workflow_dispatch:          # lets you trigger it manually from the UI
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
 
 permissions:
-  contents: write             # needed to push data.json back
+  contents: write
+
+concurrency:
+  group: currency-update
+  cancel-in-progress: false
 
 jobs:
   update:
@@ -23,8 +27,8 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data.json
           if git diff --staged --quiet; then
-            echo "No changes"
+            echo "No change"
           else
-            git commit -m "Update dollar price $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            git commit -m "Update currency prices $(date -u +%Y-%m-%dT%H:%M:%SZ)"
             git push
           fi
