@@ -1,5 +1,16 @@
 {
-    "price": "233,100",
-    "currency": "toman",
-    "updated_at": "2026-09-25T08:03:01+00:00"
+    "currencies": {
+        "euro": {
+            "title": "یورو",
+            "price": "265,500",
+            "change": -0.38
+        },
+        "pound": {
+            "title": "پوند",
+            "price": "305,900",
+            "change": -0.49
+        }
+    },
+    "unit": "toman",
+    "updated_at": "2026-09-25T08:11:49+00:00"
 }
