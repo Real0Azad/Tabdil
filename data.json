@@ -1,5 +1,10 @@
 {
     "currencies": {
+        "dollar": {
+            "title": "دلار",
+            "price": "233,100",
+            "change": 0.17
+        },
         "euro": {
             "title": "یورو",
             "price": "265,500",
@@ -9,8 +14,13 @@
             "title": "پوند",
             "price": "305,900",
             "change": -0.49
+        },
+        "dirham": {
+            "title": "درهم",
+            "price": "63,470",
+            "change": 0.19
         }
     },
     "unit": "toman",
-    "updated_at": "2026-09-25T08:11:49+00:00"
+    "updated_at": "2026-09-25T08:15:11+00:00"
 }
