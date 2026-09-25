@@ -26,7 +26,6 @@ libxml_clear_errors();
 
 $xpath = new DOMXPath($dom);
 
-// Persian name on page => English key in JSON
 $targets = [
     'دلار' => 'dollar',
     'یورو' => 'euro',
@@ -36,35 +35,45 @@ $targets = [
 
 $result = [];
 
-// The page has two copies of each row: mobile (class "md:hidden") and desktop.
-// We skip the mobile ones so we don't get duplicates.
-$rows = $xpath->query("//tr[not(contains(@class, 'md:hidden'))]");
+// Keep only <tr> with 3 <td> — this skips the mobile duplicates (md:hidden)
+// and the <thead> row (which has <th>, not <td>).
+$rows = $xpath->query(
+    "//tr[not(contains(@class, 'md:hidden')) and count(td) = 3]"
+);
 
 foreach ($rows as $row) {
-    $nameNode = $xpath->query(
+    $tds = $xpath->query("./td", $row);
+
+    // --- 1st cell: name ---
+    $nameSpans = $xpath->query(
         ".//span[contains(@class, 'font-medium')]",
-        $row
-    )->item(0);
+        $tds->item(0)
+    );
+    if ($nameSpans->length === 0) continue;
 
-    if (!$nameNode) continue;
-
-    $name = trim($nameNode->textContent);
+    $name = trim($nameSpans->item(0)->textContent);
     if (!isset($targets[$name])) continue;
 
-    $text = trim($row->textContent);
+    // --- 2nd cell: price — take the span that is *exactly* a comma-number ---
+    $price = null;
+    foreach ($xpath->query(".//span", $tds->item(1)) as $span) {
+        $t = trim($span->textContent);
+        if (preg_match('/^\d{1,3}(?:,\d{3})+$/', $t)) {
+            $price = $t;
+            break;
+        }
+    }
+    if ($price === null) continue;
 
-    // Price: comma-formatted number, e.g. 233,100
-    if (!preg_match('/\b\d{1,3}(?:,\d{3})+\b/', $text, $pm)) continue;
-
-    // Change: signed number followed by %, e.g. 0.17%  or  -0.38%
+    // --- 3rd cell: change % ---
     $change = null;
-    if (preg_match('/(-?\d+(?:\.\d+)?)\s*%/', $text, $cm)) {
-        $change = (float) $cm[1];
+    if (preg_match('/(-?\d+(?:\.\d+)?)\s*%/', $tds->item(2)->textContent, $m)) {
+        $change = (float) $m[1];
     }
 
     $result[$targets[$name]] = [
         'title'  => $name,
-        'price'  => $pm[0],
+        'price'  => $price,
         'change' => $change,
     ];
 }
@@ -85,6 +94,8 @@ file_put_contents(
     json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
 );
 
-// Log summary for the GitHub Actions run
-$summary = array_map(fn($c) => $c['price'], $result);
-echo "Updated: " . json_encode($summary, JSON_UNESCAPED_UNICODE) . "\n";
+echo "Updated: " . implode(', ', array_map(
+    fn($k, $v) => "$k={$v['price']}",
+    array_keys($result),
+    $result
+)) . "\n";
