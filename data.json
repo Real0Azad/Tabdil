@@ -2,64 +2,64 @@
     "currencies": {
         "dollar": {
             "title": "دلار",
-            "price": "233,100",
-            "change": 1000.17
+            "price": "234,500",
+            "change": 5000.43
         },
         "euro": {
             "title": "یورو",
-            "price": "265,500",
-            "change": -0.38
+            "price": "267,100",
+            "change": 1000.38
         },
         "pound": {
             "title": "پوند",
-            "price": "305,900",
-            "change": -0.49
+            "price": "307,500",
+            "change": 5000.39
         },
         "dirham": {
             "title": "درهم",
-            "price": "63,470",
-            "change": 4700.19
+            "price": "63,840",
+            "change": 8400.41
         }
     },
     "gold": {
         "gold_18k": {
             "title": "طلای ۱۸ عیار",
-            "price": "23,754,560",
-            "change": -0.72
+            "price": "23,869,980",
+            "change": 0.58
         },
         "gold_24k": {
             "title": "طلای ۲۴ عیار",
-            "price": "31,669,579",
-            "change": -0.72
+            "price": "31,823,457",
+            "change": 0.58
         }
     },
     "coins": {
         "coin_bahar_azadi": {
             "title": "سکه بهار آزادی",
-            "price": "232,000,000",
-            "change": -0.43
+            "price": "234,000,000",
+            "change": -0.85
         },
         "coin_emami": {
             "title": "سکه امامی",
-            "price": "236,500,000",
-            "change": -0.42
+            "price": "238,500,000",
+            "change": -0.63
         },
         "coin_half": {
             "title": "نیم سکه",
-            "price": "121,500,000",
-            "change": 0.41
+            "price": "122,000,000",
+            "change": -0.81
         },
         "coin_quarter": {
             "title": "ربع سکه",
-            "price": "64,000,000",
-            "change": 1.59
+            "price": "64,500,000",
+            "change": -0.77
         },
         "coin_grami": {
             "title": "سکه گرمی",
             "price": "34,000,000",
-            "change": 3.03
+            "change": 0
         }
     },
     "unit": "toman",
-    "updated_at": "2026-09-26T09:27:21+00:00"
+    "updated_at": "2026-09-26T13:48:43+00:00"
 }
